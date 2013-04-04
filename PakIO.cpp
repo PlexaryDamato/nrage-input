@@ -379,7 +379,7 @@ BYTE ReadControllerPak( const int iControl, LPBYTE Command )
 							FillMemory(Data, 32, 0x80);
 							DebugWriteA( " Inserted, Access Mode 0\n" );
 						}
-						Data[0] = Data[0] | tPak->iAccessModeChanged;
+						Data[0] = Data[0] | (BYTE)tPak->iAccessModeChanged;
 					} else {
 						FillMemory(Data, 32, 0x40); // Cart not inserted.
 						DebugWriteA( " Not Inserted\n" );
@@ -947,7 +947,7 @@ int ReverseNotesA( LPCSTR Text, LPBYTE Note )
 			{
 				if( c == aSpecial[i] )
 				{
-					*Note = i + 0x34;
+					*Note = (byte)i + 0x34;
 					break;
 				}
 			}

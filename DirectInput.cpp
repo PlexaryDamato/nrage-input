@@ -1239,7 +1239,7 @@ void InitMouse()
 	{
 		g_sysMouse.guidInstance = GUID_SysMouse;
 		g_sysMouse.dwDevType = DI8DEVTYPE_MOUSE;
-		_tcsncpy(g_sysMouse.szProductName, STRING_GUID_SYSMOUSE, ARRAYSIZE(g_sysMouse.szProductName));
+		_tcsncpy_s(g_sysMouse.szProductName, STRING_GUID_SYSMOUSE, ARRAYSIZE(g_sysMouse.szProductName));
 	}
 	else
 		g_sysMouse.didHandle = NULL;

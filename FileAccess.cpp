@@ -87,7 +87,7 @@ DWORD ParseLine( LPSTR pszLine )
 	case '[':
 		while( *pChar != ']' && *pChar != '\0' )
 		{
-			*pChar = toupper(*pChar);
+			*pChar = (char)toupper(*pChar);
 			++pChar;
 		}
 		if( *pChar == ']' )
@@ -129,7 +129,7 @@ DWORD ParseLine( LPSTR pszLine )
 		// If we don't use hashes, we have to compare vs a LOT of strings.
 		*pChar = '\0'; // truncate at the '=' for now
 		for (char *pIter = pszLine; *pIter; pIter++)
-			*pIter = toupper(*pIter);
+			*pIter = (char)toupper(*pIter);
 		dwReturn = djbHash(pszLine);
 
 		pChar++;
@@ -198,9 +198,9 @@ bool ProcessKey( DWORD dwKey, DWORD dwSection, LPCSTR pszLine, LPTSTR pszFFDevic
 	case CHK_LANGUAGE:
 		if (dwSection == CHK_GENERAL)
 			if (bIsInterface)
-				g_ivConfig->Language = atoi(pszLine);
+				g_ivConfig->Language = (LANGID)atoi(pszLine);
 			else
-				g_strEmuInfo.Language = atoi(pszLine);
+				g_strEmuInfo.Language = (LANGID)atoi(pszLine);
 		break;
 	case CHK_SHOWMESSAGES:
 		if (dwSection == CHK_GENERAL)
@@ -266,11 +266,11 @@ bool ProcessKey( DWORD dwKey, DWORD dwSection, LPCSTR pszLine, LPTSTR pszFFDevic
 		break;
 	case CHK_RAPIDFIRERATE:
 		if (pController)
-			pController->bRapidFireRate = atoi(pszLine);
+			pController->bRapidFireRate = (BYTE)atoi(pszLine);
 		break;
 	case CHK_STICKRANGE:
 		if (pController)
-			pController->bStickRange = atoi(pszLine);
+			pController->bStickRange = (BYTE)atoi(pszLine);
 		break;
 	case CHK_MOUSEMOVEX:
 		if (pController)
@@ -294,23 +294,23 @@ bool ProcessKey( DWORD dwKey, DWORD dwSection, LPCSTR pszLine, LPTSTR pszFFDevic
 		break;
 	case CHK_PADDEADZONE:
 		if (pController)
-			pController->bPadDeadZone = atoi(pszLine);
+			pController->bPadDeadZone = (BYTE)atoi(pszLine);
 		break;
 	case CHK_MOUSESENSITIVITYX:
 		if (pController)
-			pController->wMouseSensitivityX = atoi(pszLine);
+			pController->wMouseSensitivityX = (WORD)atoi(pszLine);
 		break;
 	case CHK_MOUSESENSITIVITYY:
 		if (pController)
-			pController->wMouseSensitivityY = atoi(pszLine);
+			pController->wMouseSensitivityY = (WORD)atoi(pszLine);
 		break;
 	case CHK_RUMBLETYPE:
 		if (pController)
-			pController->bRumbleTyp = atoi(pszLine);
+			pController->bRumbleTyp = (BYTE)atoi(pszLine);
 		break;
 	case CHK_RUMBLESTRENGTH:
 		if (pController)
-			pController->bRumbleStrength = atoi(pszLine);
+			pController->bRumbleStrength = (BYTE)atoi(pszLine);
 		break;
 	case CHK_VISUALRUMBLE:
 		if (pController)
@@ -410,9 +410,9 @@ bool ProcessKey( DWORD dwKey, DWORD dwSection, LPCSTR pszLine, LPTSTR pszFFDevic
 				return false;
 
 			// done to overcome issues with sscanf and "small" data blocks
-			btnWorking.bOffset = tOffset;
-			btnWorking.bAxisID = tAxisID;
-			btnWorking.bBtnType = tBtnType;
+			btnWorking.bOffset =  (BYTE)tOffset;
+			btnWorking.bAxisID =  (BYTE)tAxisID;
+			btnWorking.bBtnType = (BYTE)tBtnType;
 
 			if (pController)
 			{
@@ -517,10 +517,10 @@ bool ProcessKey( DWORD dwKey, DWORD dwSection, LPCSTR pszLine, LPTSTR pszFFDevic
 				return false;
 
 			// done to overcome issues with sscanf and "small" data blocks
-			modWorking.btnButton.bOffset = tOffset;
-			modWorking.btnButton.bAxisID = tAxisID;
-			modWorking.btnButton.bBtnType = tBtnType;
-			modWorking.bModType = tModType;
+			modWorking.btnButton.bOffset = (BYTE)tOffset;
+			modWorking.btnButton.bAxisID = (BYTE)tAxisID;
+			modWorking.btnButton.bBtnType = (BYTE)tBtnType;
+			modWorking.bModType = (BYTE)tModType;
 			modWorking.fToggle = tToggle;
 			modWorking.fStatus = tStatus;
 			modWorking.dwSpecific = tSpecific; // looks stupid, but unsigned int might not always be DWORD32

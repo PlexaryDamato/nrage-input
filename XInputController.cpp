@@ -140,7 +140,7 @@ LCleanup:
 void AxisDeadzone( SHORT &AxisValue, long  lDeadZoneValue, float fDeadZoneRelation )
 {
 	short sign = AxisValue < 0 ? -1 : 1;
-	float value = AxisValue < 0 ? -AxisValue : AxisValue;
+	float value = (float)AxisValue < 0 ? -(float)AxisValue : (float)AxisValue;
 
 	if(value < lDeadZoneValue)
 		value = 0;
@@ -290,8 +290,8 @@ void VibrateXInputController( DWORD nController, int LeftMotorVal, int RightMoto
 
 	ZeroMemory( &vibration, sizeof( XINPUT_VIBRATION ) );
 
-	vibration.wLeftMotorSpeed = LeftMotorVal;
-	vibration.wRightMotorSpeed = RightMotorVal;
+	vibration.wLeftMotorSpeed =  (WORD)LeftMotorVal;
+	vibration.wRightMotorSpeed = (WORD)RightMotorVal;
 
 	XInputSetState( nController, &vibration );
 }
@@ -431,24 +431,23 @@ bool ReadXInputControllerKeys( HWND hDlg, LPXCONTROLLER gController )
 {
 	if( hDlg == NULL || gController == NULL || !gController->bConfigured)
 		return false;
+	SendDlgItemMessage( hDlg, IDC_XC_A,		CB_SELECTSTRING, NULL, (LPARAM)GetN64ButtonFromXInputControl( gController, XINPUT_GAMEPAD_A ));
+	SendDlgItemMessage( hDlg, IDC_XC_B,		CB_SELECTSTRING, NULL, (LPARAM)GetN64ButtonFromXInputControl( gController, XINPUT_GAMEPAD_B ));
+	SendDlgItemMessage( hDlg, IDC_XC_X,		CB_SELECTSTRING, NULL, (LPARAM)GetN64ButtonFromXInputControl( gController, XINPUT_GAMEPAD_X ));
+	SendDlgItemMessage( hDlg, IDC_XC_Y,		CB_SELECTSTRING, NULL, (LPARAM)GetN64ButtonFromXInputControl( gController, XINPUT_GAMEPAD_Y ));
+	SendDlgItemMessage( hDlg, IDC_XC_BACK,	CB_SELECTSTRING, NULL, (LPARAM)GetN64ButtonFromXInputControl( gController, XINPUT_GAMEPAD_BACK ));
+	SendDlgItemMessage( hDlg, IDC_XC_START,	CB_SELECTSTRING, NULL, (LPARAM)GetN64ButtonFromXInputControl( gController, XINPUT_GAMEPAD_START ));
+	SendDlgItemMessage( hDlg, IDC_XC_LB,	CB_SELECTSTRING, NULL, (LPARAM)GetN64ButtonFromXInputControl( gController, XINPUT_GAMEPAD_LEFT_SHOULDER ));
+	SendDlgItemMessage( hDlg, IDC_XC_RB,	CB_SELECTSTRING, NULL, (LPARAM)GetN64ButtonFromXInputControl( gController, XINPUT_GAMEPAD_RIGHT_SHOULDER ));
+	SendDlgItemMessage( hDlg, IDC_XC_LTSB,	CB_SELECTSTRING, NULL, (LPARAM)GetN64ButtonFromXInputControl( gController, XINPUT_GAMEPAD_LEFT_THUMB ));
+	SendDlgItemMessage( hDlg, IDC_XC_RTSB,	CB_SELECTSTRING, NULL, (LPARAM)GetN64ButtonFromXInputControl( gController, XINPUT_GAMEPAD_RIGHT_THUMB ));
 
-	SendDlgItemMessage( hDlg, IDC_XC_A, CB_SELECTSTRING, -1, (LPARAM)GetN64ButtonFromXInputControl( gController, XINPUT_GAMEPAD_A ));
-	SendDlgItemMessage( hDlg, IDC_XC_B, CB_SELECTSTRING, -1, (LPARAM)GetN64ButtonFromXInputControl( gController, XINPUT_GAMEPAD_B ));
-	SendDlgItemMessage( hDlg, IDC_XC_X, CB_SELECTSTRING, -1, (LPARAM)GetN64ButtonFromXInputControl( gController, XINPUT_GAMEPAD_X ));
-	SendDlgItemMessage( hDlg, IDC_XC_Y, CB_SELECTSTRING, -1, (LPARAM)GetN64ButtonFromXInputControl( gController, XINPUT_GAMEPAD_Y ));
-	SendDlgItemMessage( hDlg, IDC_XC_BACK, CB_SELECTSTRING, -1, (LPARAM)GetN64ButtonFromXInputControl( gController, XINPUT_GAMEPAD_BACK ));
-	SendDlgItemMessage( hDlg, IDC_XC_START, CB_SELECTSTRING, -1, (LPARAM)GetN64ButtonFromXInputControl( gController, XINPUT_GAMEPAD_START ));
-	SendDlgItemMessage( hDlg, IDC_XC_LB, CB_SELECTSTRING, -1, (LPARAM)GetN64ButtonFromXInputControl( gController, XINPUT_GAMEPAD_LEFT_SHOULDER ));
-	SendDlgItemMessage( hDlg, IDC_XC_RB, CB_SELECTSTRING, -1, (LPARAM)GetN64ButtonFromXInputControl( gController, XINPUT_GAMEPAD_RIGHT_SHOULDER ));
-	SendDlgItemMessage( hDlg, IDC_XC_LTSB, CB_SELECTSTRING, -1, (LPARAM)GetN64ButtonFromXInputControl( gController, XINPUT_GAMEPAD_LEFT_THUMB ));
-	SendDlgItemMessage( hDlg, IDC_XC_RTSB, CB_SELECTSTRING, -1, (LPARAM)GetN64ButtonFromXInputControl( gController, XINPUT_GAMEPAD_RIGHT_THUMB ));
+	SendDlgItemMessage( hDlg, IDC_XC_LT,	CB_SELECTSTRING, NULL, (LPARAM)GetN64ButtonNameFromButtonCode( gController->stAnalogs.iLeftTrigger ));
+	SendDlgItemMessage( hDlg, IDC_XC_RT,	CB_SELECTSTRING, NULL, (LPARAM)GetN64ButtonNameFromButtonCode( gController->stAnalogs.iRightTrigger ));
 
-	SendDlgItemMessage( hDlg, IDC_XC_LT, CB_SELECTSTRING, -1, (LPARAM)GetN64ButtonNameFromButtonCode( gController->stAnalogs.iLeftTrigger ));
-	SendDlgItemMessage( hDlg, IDC_XC_RT, CB_SELECTSTRING, -1, (LPARAM)GetN64ButtonNameFromButtonCode( gController->stAnalogs.iRightTrigger ));
-
-	SendDlgItemMessage( hDlg, IDC_XC_DPAD, CB_SELECTSTRING, -1, (LPARAM)GetN64ButtonArrayFromXAnalog( gController, XC_DPAD ));
-	SendDlgItemMessage( hDlg, IDC_XC_LTS, CB_SELECTSTRING, -1, (LPARAM)GetN64ButtonArrayFromXAnalog( gController, XC_LTBS ));
-	SendDlgItemMessage( hDlg, IDC_XC_RTS, CB_SELECTSTRING, -1, (LPARAM)GetN64ButtonArrayFromXAnalog( gController, XC_RTBS ));
+	SendDlgItemMessage( hDlg, IDC_XC_DPAD,	CB_SELECTSTRING, NULL, (LPARAM)GetN64ButtonArrayFromXAnalog( gController, XC_DPAD ));
+	SendDlgItemMessage( hDlg, IDC_XC_LTS,	CB_SELECTSTRING, NULL, (LPARAM)GetN64ButtonArrayFromXAnalog( gController, XC_LTBS ));
+	SendDlgItemMessage( hDlg, IDC_XC_RTS,	CB_SELECTSTRING, NULL, (LPARAM)GetN64ButtonArrayFromXAnalog( gController, XC_RTBS ));
 
 	return true;
 }

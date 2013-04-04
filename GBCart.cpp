@@ -54,7 +54,7 @@ void UpdateRTC(LPGBCART Cart) {
 	Cart->TimerData[2] += (BYTE)(dif % 24);
 	dif /= 24;
 
-	days = Cart->TimerData[3] + ((Cart->TimerData[4] & 1) << 8) + dif;
+	days = Cart->TimerData[3] + ((Cart->TimerData[4] & 1) << 8) + (int)dif;
 	Cart->TimerData[3] = (days & 0xFF);
 
 	if(days > 255) {
@@ -457,16 +457,16 @@ bool LoadCart(LPGBCART Cart, LPCTSTR RomFileName, LPCTSTR RamFileName, LPCTSTR T
 					// Looks like there is extra data in the SAV file than just RAM data... assume it is RTC data.
 					gbCartRTC RTCTimer;
 					CopyMemory( &RTCTimer, &Cart->RamData[NumQuarterBlocks * 0x0800], sizeof(RTCTimer) );
-					Cart->TimerData[0] = RTCTimer.mapperSeconds;
-					Cart->TimerData[1] = RTCTimer.mapperMinutes;
-					Cart->TimerData[2] = RTCTimer.mapperHours;
-					Cart->TimerData[3] = RTCTimer.mapperDays;
-					Cart->TimerData[4] = RTCTimer.mapperControl;
-					Cart->LatchedTimerData[0] = RTCTimer.mapperLSeconds;
-					Cart->LatchedTimerData[1] = RTCTimer.mapperLMinutes;
-					Cart->LatchedTimerData[2] = RTCTimer.mapperLHours;
-					Cart->LatchedTimerData[3] = RTCTimer.mapperLDays;
-					Cart->LatchedTimerData[4] = RTCTimer.mapperLControl;
+					Cart->TimerData[0] = (BYTE)RTCTimer.mapperSeconds;
+					Cart->TimerData[1] = (BYTE)RTCTimer.mapperMinutes;
+					Cart->TimerData[2] = (BYTE)RTCTimer.mapperHours;
+					Cart->TimerData[3] = (BYTE)RTCTimer.mapperDays;
+					Cart->TimerData[4] = (BYTE)RTCTimer.mapperControl;
+					Cart->LatchedTimerData[0] = (BYTE)RTCTimer.mapperLSeconds;
+					Cart->LatchedTimerData[1] = (BYTE)RTCTimer.mapperLMinutes;
+					Cart->LatchedTimerData[2] = (BYTE)RTCTimer.mapperLHours;
+					Cart->LatchedTimerData[3] = (BYTE)RTCTimer.mapperLDays;
+					Cart->LatchedTimerData[4] = (BYTE)RTCTimer.mapperLControl;
 					Cart->timerLastUpdate = RTCTimer.mapperLastTime;
 					UpdateRTC(Cart);
 				}

@@ -254,7 +254,7 @@ typedef struct _CONTROLLER		// AN N64 CONTROLLER
 typedef union _MODSPEC_MOVE
 {
 	DWORD dwValue;
-	struct
+	struct 
 	{ 
 		short XModification;
 		short YModification;

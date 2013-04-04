@@ -162,7 +162,7 @@ BOOL CALLBACK MainDlgProc( HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam )
 			if( i == TCN_SELCHANGE )
 			{
 				i = g_ivConfig->ChosenTab;
-				g_ivConfig->ChosenTab = TabCtrl_GetCurSel( hDlgItem );
+				g_ivConfig->ChosenTab = (BYTE)TabCtrl_GetCurSel( hDlgItem );
 
 				if( hTabControl )
 				{
