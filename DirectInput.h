@@ -53,7 +53,7 @@ HRESULT ReadAdaptoidPak( LPDIRECTINPUTDEVICE8 lpDirectInputDevice, DWORD addr, L
 HRESULT WriteAdaptoidPak( LPDIRECTINPUTDEVICE8 lpDirectInputDevice, DWORD addr, LPBYTE data );
 
 
-#define MINAXISVALUE	-32767
+#define MINAXISVALUE	-32768
 #define MAXAXISVALUE	32767
 #define ZEROVALUE		0
 #define THRESHOLD		90

@@ -82,6 +82,12 @@
     <ClInclude Include="..\..\XInputController.h">
       <Filter>Headers</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\ControllerSpecs\Controller #1.0.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\ControllerSpecs\Controller #1.1.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\configs\Controller1.cpf">

@@ -132,6 +132,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\commonIncludes.h" />
+    <ClInclude Include="..\..\ControllerSpecs\Controller #1.0.h" />
+    <ClInclude Include="..\..\ControllerSpecs\Controller #1.1.h" />
     <ClInclude Include="..\..\Debug.h" />
     <ClInclude Include="..\..\DirectInput.h" />
     <ClInclude Include="..\..\FileAccess.h" />

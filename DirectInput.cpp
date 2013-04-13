@@ -48,18 +48,6 @@ void GetDeviceDatas()
 {
 	HRESULT hr;
 
-/*	if( g_sysKeyboard.didHandle )
-	{
-		hr = g_sysKeyboard.didHandle->Poll();
-		if( FAILED( hr ))
-			AcquireDevice( g_sysKeyboard.didHandle ); // we'll try again next time
-
-		hr = g_sysKeyboard.didHandle->GetDeviceState( sizeof(g_sysKeyboard.stateAs.rgbButtons), &g_sysKeyboard.stateAs.rgbButtons );
-
-		if( FAILED( hr ))
-			ZeroMemory( g_sysKeyboard.stateAs.rgbButtons, sizeof(g_sysKeyboard.stateAs.rgbButtons) );
-	} */
-
 	if( g_sysMouse.didHandle )
 	{
 		hr = g_sysMouse.didHandle->Poll();
@@ -552,22 +540,28 @@ bool GetNControllerInput ( const int indexController, LPDWORD pdwData )
 
 bool InitDirectInput( HWND hWnd )
 {
+	//If we havent already got the DLL then lets load it
 	if( g_hDirectInputDLL == NULL )
 		g_hDirectInputDLL = LoadLibrary( _T( "dinput8.dll" ));
+
+	//If we failed to load in the dll then spit out an error
 	if( g_hDirectInputDLL == NULL )
-	{
 		ErrorMessage(IDS_ERR_DINOTFOUND, 0, false);
-	}
 	else if( !g_pDIHandle ) // is NULL if not yet initialized
 	{
+		//Inititalize a handle for the directinput
 		HRESULT (WINAPI *lpGetDIHandle)( HINSTANCE, DWORD, REFIID, LPVOID*, LPUNKNOWN ) = NULL;
+		//Get the function for creating the direct input interface
 		lpGetDIHandle = (HRESULT (WINAPI *)( HINSTANCE, DWORD, REFIID, LPVOID*, LPUNKNOWN ))GetProcAddress( g_hDirectInputDLL, "DirectInput8Create" );
 
+		//If we have set the variable succesfully then continual
 		if( lpGetDIHandle != NULL )
 		{
 			HRESULT hr;
-			hr = lpGetDIHandle( g_strEmuInfo.hinst, DIRECTINPUT_VERSION, 
-								IID_IDirectInput8, (LPVOID*)&g_pDIHandle, NULL );
+			//create the direct input handle
+			hr = lpGetDIHandle( g_strEmuInfo.hinst, DIRECTINPUT_VERSION, IID_IDirectInput8, (LPVOID*)&g_pDIHandle, NULL );
+			
+			//if we failed to create the handle, unload the library
 			if( FAILED( hr ))
 			{
 				ErrorMessage(IDS_ERR_DICREATE, 0, false);
@@ -704,6 +698,7 @@ BOOL CALLBACK EnumMakeDeviceList( LPCDIDEVICEINSTANCE lpddi, LPVOID pvRef )
 					g_devList[g_nDevices].bProductCounter++; // give em instance numbers
 			}
 		}
+
 		if( !lstrcmp( lpddi->tszProductName, TEXT( STRING_ADAPTOID )))
 			g_devList[g_nDevices].bEffType = RUMBLE_DIRECT;
 		else
@@ -797,11 +792,6 @@ bool GetInputDevice( HWND hWnd, LPDIRECTINPUTDEVICE8 &lpDirectInputDevice, GUID 
 		ppDiDataFormat = &c_dfDIMouse2;
 		break;
 
-	//case DI8DEVTYPE_GAMEPAD:
-	//case DI8DEVTYPE_JOYSTICK:
-	//case DI8DEVTYPE_DRIVING:
-	//case DI8DEVTYPE_1STPERSON:
-	//case DI8DEVTYPE_FLIGHT:
 	default: // assume everything else is a gamepad; probably not the best idea but it works
 		ppDiDataFormat = &c_dfDIJoystick;
 		break;

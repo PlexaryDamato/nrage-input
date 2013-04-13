@@ -3425,7 +3425,7 @@ bool GetButtonID( LPDWORD ButtonID, const BYTE bIndex, const BYTE bButtonSet )
 }
 
 // a text-munging routine to spit out what PC control was assigned to a button
-bool GetButtonText( const BUTTON& btnButton, LPTSTR Buffer )
+bool GetButtonText( const BUTTON &btnButton, LPTSTR Buffer )
 {
 	const UINT iDevice[] ={	IDS_BUTTON_UNASSIGNED,
 						IDS_C_GAMEPAD,
